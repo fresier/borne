@@ -37,7 +37,7 @@ export default function LookBox()  {
             // backdrop="static"
             centered
         >
-            <input className="form-control" type="text" placeholder="Recherche" aria-label="Recherche" />
+            <input className="form-control m-3" type="text" placeholder="Recherche" aria-label="Recherche" />
         </Modal>
         </>
     )
