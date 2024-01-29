@@ -1,61 +1,16 @@
 "use client";
 
-import { useAppStore } from "@/store/session";
-import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { SubmitHandler, useForm } from "react-hook-form";
-import Selectable from "./selectable";
+import Form from "./form";
 
 interface LookBoxProps {
   setLook: any;
 }
 
-interface formulaire {
-  look: string;
-}
-
 export default function LookBox({ setLook }: LookBoxProps) {
-  const duration = useAppStore.use.duration();
-  const updateTimer = useAppStore.use.updateTimer();
-
-  let formulaire: formulaire = {
-    look: "",
-  };
   const [showModal, setShowModal] = useState(false);
-  const [valueForm, setValueForm] = useState(formulaire.look);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onSubmit: SubmitHandler<formulaire> = async (formData) => {
-    formData.look = valueForm;
-    setIsLoading(true);
-    setLook(formData.look);
-
-    updateTimer(duration);
-    setShowModal(false);
-    setIsLoading(false);
-  };
-
-  //hook du formulaire
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setError,
-    control,
-    reset,
-  } = useForm<formulaire>();
-
-  const { isLoading: fetchLoading, data } = useQuery({
-    queryKey: ["personne"],
-    queryFn: () =>
-      fetch("https://monpsy.ulb.be/ajax/autocomplete/personne.php")
-        .then((res) => res.json())
-        .then((data) => {
-          return data.users;
-        }),
-  });
 
   return (
     <>
@@ -91,32 +46,24 @@ export default function LookBox({ setLook }: LookBoxProps) {
         centered
       >
         <h3 className="m-3">Besoin d'aide ?</h3>
-        <p className="mx-3">
-          Vous cherchez une salle, une personne, un service ?
-        </p>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="container">
-            <div className="row">
-              {fetchLoading && <p>Chargement...</p>}
-              {data && (
-                <Selectable
-                  id="look"
-                  option={data}
-                  isClearable={true}
-                  isSearchable={true}
-                  setSelectValue={setValueForm}
-                  {...register("look")}
-                />
-              )}
-            </div>
-          </div>
-          <button
-            className="btn btn-primary m-3 w-auto float-end"
-            type="submit"
-          >
-            Rechercher
-          </button>
-        </form>
+        <p className="mx-3">Vous cherchez ...</p>
+
+        <Form
+          setLook={setLook}
+          setShowModal={setShowModal}
+          limiteChar={2}
+          request="https://monpsy.ulb.be/ajax/autocomplete/personne.php"
+          title="Une personne ?"
+          queryKey="personne"
+        />
+
+        <Form
+          setLook={setLook}
+          setShowModal={setShowModal}
+          request="https://monpsy.ulb.be/ajax/autocomplete/service.php"
+          title="Un service ou centre de recherche ?"
+          queryKey="service"
+        />
       </Modal>
     </>
   );

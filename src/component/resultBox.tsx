@@ -3,9 +3,10 @@
 import { useAppStore } from "@/store/session";
 import { useRef } from "react";
 import { FicheMembre } from "./ficheMembre";
+import FicheService from "./ficheService";
 
 interface ResultBoxProps {
-  look: string;
+  look: any;
 }
 export default function ResultBox({ look }: ResultBoxProps) {
   const duration = useAppStore.use.duration();
@@ -39,7 +40,8 @@ export default function ResultBox({ look }: ResultBoxProps) {
               width: "75%",
             }}
           >
-            {look && <FicheMembre ulbid={look} />}
+            {look.type == "personne" && <FicheMembre ulbid={look.look} />}
+            {look.type == "service" && <FicheService id={look.look} />}
           </div>
         </div>
       </div>
