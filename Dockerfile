@@ -1,29 +1,3 @@
-# FROM registry.gitlab.ulb.be/openshift-resources/base-images/node/18-alpine:latest AS builder
-# ENV NODE_ENV=development
-# ENV NEXT_TELEMETRY_DISABLED=1
-# WORKDIR /app
-# COPY . .
-# RUN npm install && npm run build
-
-# FROM gcr.io/distroless/nodejs:18 AS production
-# WORKDIR /app
-# ENV HOST=0.0.0.0
-# ENV PORT=3000
-# ENV NODE_ENV=production
-# ENV NEXT_TELEMETRY_DISABLED=1
-# COPY --chown=1001:0 --from=builder /app/next.config.js ./
-# COPY --chown=1001:0 --from=builder /app/public ./public
-# COPY --chown=1001:0 --from=builder /app/.next ./.next
-# COPY --chown=1001:0 --from=builder /app/package-lock.json /app/package.json ./
-# COPY --chown=1001:0 --from=builder /app/node_modules ./node_modules
-# COPY --chown=1001:0 --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-# USER 1001
-# EXPOSE 3000
-# CMD ["./node_modules/next/dist/bin/next", "start"]
-
-ARG NODE_VERSION=18
-
-# FROM registry.gitlab.ulb.be/openshift-resources/base-images/node/${NODE_VERSION}-alpine:latest AS base
 FROM node:18-alpine AS base
 
 # Install dependencies only when needed
@@ -37,7 +11,7 @@ COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
@@ -53,7 +27,7 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn build
+RUN npm run build
 
 # If using npm comment out above and use below instead
 # RUN npm run build
@@ -71,10 +45,14 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
 
+# Set the correct permission for prerender cache
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-# COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-# COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
@@ -84,5 +62,6 @@ ENV PORT 3000
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 
-# CMD ["node", "server.js"]
-CMD ["./node_modules/next/dist/bin/next", "start"]
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/next-config-js/output
+CMD ["node", "server.js"]
