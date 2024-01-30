@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
+import { v4 as uuidv4 } from "uuid";
 
 //position-absolute top-50 start-50 translate-middle
 
@@ -38,7 +39,7 @@ export default function Pub() {
           <div className="m-3">
             <Carousel>
               {data.map((item) => (
-                <Carousel.Item interval={timer}>
+                <Carousel.Item interval={timer} key={uuidv4()}>
                   <img
                     className="img-thumbnail carousel-img"
                     alt="help ?"
