@@ -18,6 +18,8 @@ export default function ResultBox({ look }: ResultBoxProps) {
     updateTimer(duration);
   };
 
+  console.log("look", look);
+
   return (
     <>
       <div
@@ -40,8 +42,11 @@ export default function ResultBox({ look }: ResultBoxProps) {
               width: "75%",
             }}
           >
-            {look.type == "personne" && <FicheMembre ulbid={look.look} />}
-            {look.type == "service" && <FicheService id={look.look} />}
+            <FicheMembre ulbid={look.look} />
+            <FicheService id={look.look} />
+
+            {/* {look.type == "personne" && <FicheMembre ulbid={look.look} />}
+            {look.type == "service" && <FicheService id={look.look} />} */}
           </div>
         </div>
       </div>

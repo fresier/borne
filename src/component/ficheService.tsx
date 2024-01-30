@@ -24,12 +24,16 @@ export default function FicheService({ id }: FicheServiceProps) {
   return (
     <>
       {isLoading && <Spinner animation="border" variant="primary" />}
-      {!isLoading && !data && <div>Erreur</div>}
-      {!isLoading && data && (
+      {!isLoading && data.service && (
         <div className="m-3">
           <h1>Service {data.service}</h1>
-          <h3>{data.titre} :</h3>
-          <FicheMembre ulbid={data.directeur} />
+
+          {data.directeur && (
+            <>
+              <h3>{data.titre} :</h3>
+              <FicheMembre ulbid={data.directeur} />
+            </>
+          )}
           {data.contact && (
             <>
               <h3>Secretariat :</h3>
