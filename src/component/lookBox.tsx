@@ -48,7 +48,7 @@ export default function LookBox({ setLook }: LookBoxProps) {
         <h3 className="m-3">Besoin d'aide ?</h3>
         <p className="mx-3">Vous cherchez ...</p>
 
-        <Form
+        {/* <Form
           setLook={setLook}
           setShowModal={setShowModal}
           limiteChar={2}
@@ -63,6 +63,23 @@ export default function LookBox({ setLook }: LookBoxProps) {
           request="https://monpsy.ulb.be/ajax/autocomplete/service.php"
           title="Un service ou centre de recherche ?"
           queryKey="service"
+        />
+
+        <Form
+          setLook={setLook}
+          setShowModal={setShowModal}
+          request="https://monpsy.ulb.be/ajax/autocomplete/bureau.php"
+          title="Un bureau ?"
+          queryKey="bureau"
+        />
+
+        <hr /> */}
+        <Form
+          setLook={setLook}
+          setShowModal={setShowModal}
+          request="https://monpsy.ulb.be/ajax/autocomplete/fusion.php"
+          title="Une personne, un service ou un bureau ?"
+          queryKey="fusion"
         />
       </Modal>
     </>

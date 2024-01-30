@@ -20,13 +20,10 @@ export const FicheMembre = ({ ulbid, commentaire }: props) => {
         }),
   });
 
-  console.log(data);
-
   return (
     <>
       {isLoading && <Spinner animation="border" variant="primary" />}
-      {!isLoading && !data && <div>Erreur</div>}
-      {!isLoading && data && (
+      {!isLoading && data.nom && (
         <table key={uuidv4()}>
           <tbody>
             <tr>
