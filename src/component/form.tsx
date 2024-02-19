@@ -79,9 +79,9 @@ export default function Form({
             <p className="mx-3">{title}</p>
             {fetchLoading && <p>Chargement...</p>}
             {data && (
-              <div className="input-group ms-3">
+              <>
                 <Selectable
-                  className="col-9"
+                  className=""
                   id="look"
                   option={data}
                   isClearable={true}
@@ -90,12 +90,12 @@ export default function Form({
                   {...register("look")}
                   limiteChar={limiteChar}
                 />
-                <button className="btn btn-primary" type="submit">
-                  Rechercher
-                </button>
-              </div>
+              </>
             )}
           </div>
+          <button className="btn btn-primary float-end my-2" type="submit">
+            Rechercher
+          </button>
         </div>
       </form>
     </>

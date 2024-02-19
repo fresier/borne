@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <>
       {showPub && <Pub />}
-      {showResult && <ResultBox look={look} />}
+      {showResult && <ResultBox look={look} setLook={setLook} />}
       <LookBox setLook={setLook} />
       <Footer />
     </>

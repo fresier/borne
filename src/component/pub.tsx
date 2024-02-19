@@ -2,20 +2,17 @@ import { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 
-//position-absolute top-50 start-50 translate-middle
-
 export default function Pub() {
   const timer = 5000;
 
-  const [data, setData] = useState([]); //data from api
+  const [data, setData] = useState([]);
 
-  //load images grom api
   useEffect(() => {
     fetch("https://monpsy.ulb.be/ajax/annonce.php")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setData(data);
+        console.log("load annonce", data);
       });
   }, []);
 

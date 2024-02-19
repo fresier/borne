@@ -6,9 +6,10 @@ import { FicheMembre } from "./ficheMembre";
 
 interface FicheServiceProps {
   id: string;
+  setLook?: any;
 }
 
-export default function FicheService({ id }: FicheServiceProps) {
+export default function FicheService({ id, setLook }: FicheServiceProps) {
   const { isLoading, data } = useQuery({
     queryKey: ["service_" + id],
     queryFn: () =>
@@ -18,8 +19,6 @@ export default function FicheService({ id }: FicheServiceProps) {
           return data;
         }),
   });
-
-  console.log(data);
 
   return (
     <>
@@ -31,13 +30,13 @@ export default function FicheService({ id }: FicheServiceProps) {
           {data.directeur && (
             <>
               <h3>{data.titre} :</h3>
-              <FicheMembre ulbid={data.directeur} />
+              <FicheMembre ulbid={data.directeur} setLook={setLook} />
             </>
           )}
           {data.contact && (
             <>
               <h3>Secretariat :</h3>
-              <FicheMembre ulbid={data.contact} />
+              <FicheMembre ulbid={data.contact} setLook={setLook} />
             </>
           )}
         </div>

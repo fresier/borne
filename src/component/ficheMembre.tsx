@@ -8,8 +8,10 @@ import { Avatar } from "./avatar";
 interface props {
   ulbid: string;
   commentaire?: string;
+  setLook?: any;
 }
-export const FicheMembre = ({ ulbid, commentaire }: props) => {
+export const FicheMembre = ({ ulbid, commentaire, setLook }: props) => {
+  console.log("FicheMembre", ulbid, commentaire);
   const { isLoading, data } = useQuery({
     queryKey: [ulbid],
     queryFn: () =>
@@ -19,6 +21,10 @@ export const FicheMembre = ({ ulbid, commentaire }: props) => {
           return data;
         }),
   });
+
+  function handleLocal(local: string) {
+    setLook({ look: local, type: "local" });
+  }
 
   return (
     <>
@@ -44,10 +50,14 @@ export const FicheMembre = ({ ulbid, commentaire }: props) => {
                 <span className="ms-1 badge rounded-pill text-bg-light">
                   {data.tel}
                 </span>
-                <span className="ms-1 badge rounded-pill text-bg-light">
+                <a
+                  className="ms-1 badge rounded-pill text-bg-light text-decoration-none"
+                  onClick={() => {
+                    handleLocal(data.bureau);
+                  }}
+                >
                   {data.bureau}
-                </span>
-                {/* {commentaire && <><br/><span className="badge rounded-pill text-bg-light">{commentaire}</span></>} */}
+                </a>
               </td>
             </tr>
           </tbody>

@@ -4,11 +4,13 @@ import { useAppStore } from "@/store/session";
 import { useRef } from "react";
 import { FicheMembre } from "./ficheMembre";
 import FicheService from "./ficheService";
+import { Plan } from "./plan";
 
 interface ResultBoxProps {
   look: any;
+  setLook: any;
 }
-export default function ResultBox({ look }: ResultBoxProps) {
+export default function ResultBox({ look, setLook }: ResultBoxProps) {
   const duration = useAppStore.use.duration();
   const updateTimer = useAppStore.use.updateTimer();
 
@@ -17,8 +19,6 @@ export default function ResultBox({ look }: ResultBoxProps) {
   const handleClickInside = () => {
     updateTimer(duration);
   };
-
-  console.log("look", look);
 
   return (
     <>
@@ -42,11 +42,14 @@ export default function ResultBox({ look }: ResultBoxProps) {
               width: "75%",
             }}
           >
-            <FicheMembre ulbid={look.look} />
-            <FicheService id={look.look} />
-
-            {/* {look.type == "personne" && <FicheMembre ulbid={look.look} />}
-            {look.type == "service" && <FicheService id={look.look} />} */}
+            {look.type == "fusion" && (
+              <>
+                <FicheMembre ulbid={look.look} setLook={setLook} />
+                <FicheService id={look.look} setLook={setLook} />
+                <Plan id={look.look} setLook={setLook} />
+              </>
+            )}
+            {look.type == "local" && <Plan id={look.look} setLook={setLook} />}
           </div>
         </div>
       </div>
