@@ -46,7 +46,7 @@ export const Plan = ({ id, setLook }: props) => {
             data.users.length > 0 &&
             data.users.map((user: any) => {
               return (
-                <div className="col-6">
+                <div className="col-6" key={uuidv4()}>
                   <FicheMembre
                     ulbid={user.name.toLowerCase()}
                     setLook={setLook}

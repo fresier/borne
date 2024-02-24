@@ -1,4 +1,5 @@
 import { useAppStore } from "@/store/session";
+import { v4 as uuidv4 } from "uuid";
 import Bureau from "./bureau";
 
 interface BureauProps {
@@ -42,7 +43,15 @@ export default function EtageU({ etage, bureau, id, setLook }: Props) {
     if (parseInt(bureau.bureau.split(".")[3]) < 200) {
       i = x;
       x += bureau.window * largeur_window + 1.5;
-      return <Bureau bureau={bureau} x={i} setLook={setLook} actif={id} />;
+      return (
+        <Bureau
+          key={uuidv4()}
+          bureau={bureau}
+          x={i}
+          setLook={setLook}
+          actif={id}
+        />
+      );
     }
   });
 
@@ -56,7 +65,14 @@ export default function EtageU({ etage, bureau, id, setLook }: Props) {
       i = x;
       x += bureau.window * largeur_window + 1.5;
       return (
-        <Bureau bureau={bureau} x={i} y={y} setLook={setLook} actif={id} />
+        <Bureau
+          key={uuidv4()}
+          bureau={bureau}
+          x={i}
+          y={y}
+          setLook={setLook}
+          actif={id}
+        />
       );
     }
   });
@@ -72,7 +88,14 @@ export default function EtageU({ etage, bureau, id, setLook }: Props) {
       i = x;
       x += bureau.window * largeur_window + 1.5;
       return (
-        <Bureau bureau={bureau} x={i} y={y} setLook={setLook} actif={id} />
+        <Bureau
+          key={uuidv4()}
+          bureau={bureau}
+          x={i}
+          y={y}
+          setLook={setLook}
+          actif={id}
+        />
       );
     }
   });
