@@ -20,6 +20,7 @@ export default function ResultBox({ look, setLook }: ResultBoxProps) {
     updateTimer(duration);
   };
 
+  console.log("look", look);
   return (
     <>
       <div

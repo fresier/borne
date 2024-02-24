@@ -1,9 +1,10 @@
 import { useAppStore } from "@/store/session";
 
-export default function Footer() {
+export default function DevTools() {
   const timer = useAppStore.use.timer();
   const showPub = useAppStore.use.showPub();
   const showResult = useAppStore.use.showResult();
+  const etage = useAppStore.use.etage();
 
   return (
     <>
@@ -22,7 +23,7 @@ export default function Footer() {
         <div className="container-fluid">
           <p className="text-white">
             reset in {timer} sec | showPub: {(showPub && "true") || "false"} |
-            showResult: {(showResult && "true") || "false"}
+            showResult: {(showResult && "true") || "false"} | etage: {etage}
           </p>
         </div>
       </footer>

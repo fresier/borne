@@ -21,16 +21,18 @@ export const useAppStore = createSelectors(
     devtools(
       combine(
         {
-          duration: 60,
+          duration: 600,
           timer: 0,
           showPub: true,
           showResult: false,
+          etage: 9,
         },
         (set) => ({
           updateTimer: (newTimer: number) => set({ timer: newTimer }),
           setShowPub: (newShowPub: boolean) => set({ showPub: newShowPub }),
           setShowResult: (newShowResult: boolean) =>
             set({ showResult: newShowResult }),
+          setEtage: (newEtage: number) => set({ etage: newEtage }),
         })
       )
     )
