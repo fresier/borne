@@ -16,16 +16,26 @@ const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(
   return store;
 };
 
+interface lookType {
+  look: string;
+  type: string;
+}
+
 export const useAppStore = createSelectors(
   create(
     devtools(
       combine(
         {
-          duration: 600,
+          duration: 10,
           timer: 0,
           showPub: true,
           showResult: false,
           etage: 9,
+          showAscenseur: false,
+          look: {
+            look: "",
+            type: "",
+          } as lookType,
         },
         (set) => ({
           updateTimer: (newTimer: number) => set({ timer: newTimer }),
@@ -33,6 +43,9 @@ export const useAppStore = createSelectors(
           setShowResult: (newShowResult: boolean) =>
             set({ showResult: newShowResult }),
           setEtage: (newEtage: number) => set({ etage: newEtage }),
+          setShowAscenseur: (newShowAscenseur: boolean) =>
+            set({ showAscenseur: newShowAscenseur }),
+          setLook: (newLook: lookType) => set({ look: newLook }),
         })
       )
     )

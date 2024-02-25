@@ -19,6 +19,8 @@ interface Props {
 }
 export default function EtageD({ etage, bureau, id, setLook }: Props) {
   const numero = parseInt(id.split(".")[3]);
+  const setShowAscenseur = useAppStore.use.setShowAscenseur();
+
   console.log("numero", numero);
   const etageBureau = bureau.filter(
     (b: any) => b.bureau.split(".")[2] == etage
@@ -107,6 +109,10 @@ export default function EtageD({ etage, bureau, id, setLook }: Props) {
     setLook({ look: local, type: "local" });
   }
 
+  function showAssenceur() {
+    setShowAscenseur(true);
+  }
+
   return (
     <div>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1613.94 483.11">
@@ -141,6 +147,23 @@ export default function EtageD({ etage, bureau, id, setLook }: Props) {
         {bureauSud}
         {bureauNordC}
         {bureauNordB}
+
+        <image
+          x={680}
+          y={205}
+          width={80}
+          height={80}
+          href="/assets/img/wc.svg"
+        />
+
+        <rect
+          x="690"
+          y="290"
+          width="70"
+          height="155"
+          fill="green"
+          onClick={() => showAssenceur()}
+        ></rect>
 
         <path d="M668.8,139.8l2.1,155.7h-2.1V139.8z M670.8,139.8h-2.1l2.1,155.7V139.8z" />
         <path d="M756.6,190.3l13,1.6h-13V190.3z M769.6,190.3h-13l13,1.6V190.3z" />
