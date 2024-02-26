@@ -1,6 +1,6 @@
 import { useAppStore } from "@/store/session";
 import { v4 as uuidv4 } from "uuid";
-import Bureau from "./bureau";
+import BureauD from "./bureauD";
 
 interface BureauProps {
   bureau: string;
@@ -46,10 +46,11 @@ export default function EtageD({ etage, bureau, id, setLook }: Props) {
       i = x;
       x += bureau.window * largeur_window + 1.5;
       return (
-        <Bureau
+        <BureauD
           key={uuidv4()}
           bureau={bureau}
           x={i}
+          y={y}
           setLook={setLook}
           actif={id}
         />
@@ -67,7 +68,7 @@ export default function EtageD({ etage, bureau, id, setLook }: Props) {
       i = x;
       x += bureau.window * largeur_window + 1.5;
       return (
-        <Bureau
+        <BureauD
           key={uuidv4()}
           bureau={bureau}
           x={i}
@@ -90,7 +91,7 @@ export default function EtageD({ etage, bureau, id, setLook }: Props) {
       i = x;
       x += bureau.window * largeur_window + 1.5;
       return (
-        <Bureau
+        <BureauD
           key={uuidv4()}
           bureau={bureau}
           x={i}

@@ -26,7 +26,7 @@ export const useAppStore = createSelectors(
     devtools(
       combine(
         {
-          duration: 10,
+          duration: 600,
           timer: 0,
           showPub: true,
           showResult: false,

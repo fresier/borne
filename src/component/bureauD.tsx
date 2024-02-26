@@ -1,12 +1,12 @@
 interface props {
   setLook?: any;
-  bureau?: any;
-  y?: number;
+  bureau: any;
+  y: number;
   x: number;
   actif?: string;
 }
 
-export default function Bureau({ bureau, setLook, y = 8.1, x, actif }: props) {
+export default function BureauD({ bureau, setLook, y, x, actif }: props) {
   const largeur_window = 27.05;
   if (bureau.window == 0) bureau.window = 1;
 
@@ -36,15 +36,16 @@ export default function Bureau({ bureau, setLook, y = 8.1, x, actif }: props) {
   }
   if (actif) actif === bureau.bureau ? (fill = "RED") : null;
 
-  //console.log("bureauX", bureau);
+  console.log("bureauX", bureau);
 
-  bureau.x !== null
+  parseFloat(bureau.x) >= 1
     ? (x = bureau.x * largeur_window + 37.5 + bureau.x * 0.5)
     : null;
-  bureau.y !== null ? (y = bureau.y) : null;
-  bureau.h !== null ? (height = bureau.h) : null;
-  bureau.l !== null ? (l = bureau.l * largeur_window) : null;
+  parseFloat(bureau.y) >= 1 ? (y = bureau.y) : null;
+  parseFloat(bureau.h) >= 1 ? (height = bureau.h) : null;
+  parseFloat(bureau.l) >= 1 ? (l = bureau.l * largeur_window) : null;
 
+  console.log("bureauAfter", bureau);
   return (
     <rect
       id={bureau.bureau}
