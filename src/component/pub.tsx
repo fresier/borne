@@ -12,7 +12,6 @@ export default function Pub() {
       .then((res) => res.json())
       .then((data) => {
         setData(data);
-        console.log("load annonce", data);
       });
   }, []);
 

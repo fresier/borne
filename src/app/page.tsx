@@ -2,10 +2,10 @@
 
 import { useEffect } from "react";
 
-import Ascenseur from "@/component/ascenseur";
 import DevTools from "@/component/devTools";
-import LookBox from "@/component/lookBox";
+import Ascenseur from "@/component/plan/ascenseur";
 import Pub from "@/component/pub";
+import LookBox from "@/component/recherche/lookBox";
 import ResultBox from "@/component/resultBox";
 import { useAppStore } from "@/store/session";
 
@@ -28,7 +28,6 @@ export default function Home() {
 
   useEffect(() => {
     if (look.look.length === 0) return;
-    console.log("useEffect look", look);
     setShowResult(true);
     setShowPub(false);
     updateTimer(duration);
@@ -40,7 +39,7 @@ export default function Home() {
       {showResult && <ResultBox look={look} setLook={setLook} />}
       <LookBox setLook={setLook} />
       <Ascenseur />
-      <DevTools />
+      {process.env.ULB_ENV !== "prod" && <DevTools />}
     </>
   );
 }

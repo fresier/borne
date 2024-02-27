@@ -2,9 +2,9 @@
 
 import { useAppStore } from "@/store/session";
 import { useRef } from "react";
-import { FicheMembre } from "./ficheMembre";
-import FicheService from "./ficheService";
-import { Plan } from "./plan";
+import { FicheMembre } from "./fiche/membre";
+import FicheService from "./fiche/service";
+import { Plan } from "./plan/plan";
 
 interface ResultBoxProps {
   look: any;
@@ -20,7 +20,6 @@ export default function ResultBox({ look, setLook }: ResultBoxProps) {
     updateTimer(duration);
   };
 
-  console.log("look", look);
   return (
     <>
       <div

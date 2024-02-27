@@ -10,7 +10,6 @@ export default function DevTools() {
   const setShowAscenseur = useAppStore.use.setShowAscenseur();
 
   function teleport() {
-    console.log("teleport");
     setShowAscenseur(true);
   }
 
