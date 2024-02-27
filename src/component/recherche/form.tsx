@@ -1,7 +1,6 @@
 "use client";
 
 import { useAppStore } from "@/store/session";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Selectable from "./selectable";
@@ -13,6 +12,7 @@ interface FormProps {
   title: string;
   queryKey: string;
   limiteChar?: number;
+  data?: any;
 }
 
 interface formulaire {
@@ -26,6 +26,7 @@ export default function Form({
   title,
   queryKey,
   limiteChar = 0,
+  data,
 }: FormProps) {
   let formulaire: formulaire = {
     look: "",
@@ -58,15 +59,15 @@ export default function Form({
     reset,
   } = useForm<formulaire>();
 
-  const { isLoading: fetchLoading, data } = useQuery({
-    queryKey: [queryKey],
-    queryFn: () =>
-      fetch(request)
-        .then((res) => res.json())
-        .then((data) => {
-          return data.datas;
-        }),
-  });
+  // const { isLoading: fetchLoading, data } = useQuery({
+  //   queryKey: [queryKey],
+  //   queryFn: () =>
+  //     fetch(request)
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         return data.datas;
+  //       }),
+  // });
 
   return (
     <>
@@ -74,7 +75,7 @@ export default function Form({
         <div className="container mb-3">
           <div className="row">
             <p className="mx-3">{title}</p>
-            {fetchLoading && <p>Chargement...</p>}
+            {/* {fetchLoading && <p>Chargement...</p>} */}
             {data && (
               <>
                 <Selectable

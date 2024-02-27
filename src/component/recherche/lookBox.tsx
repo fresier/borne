@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import Form from "./form";
+import loadAutocomplete from "./loadAutocomplete";
 
 interface LookBoxProps {
   setLook: any;
@@ -11,6 +12,16 @@ interface LookBoxProps {
 
 export default function LookBox({ setLook }: LookBoxProps) {
   const [showModal, setShowModal] = useState(false);
+  const [data, setData] = useState();
+  const [loadData, setLoadData] = useState(false);
+
+  useEffect(() => {
+    loadAutocomplete().then((result) => {
+      if (!result.success) return;
+      setData(result.json.datas);
+      setLoadData(true);
+    });
+  }, []);
 
   return (
     <>
@@ -50,13 +61,16 @@ export default function LookBox({ setLook }: LookBoxProps) {
           Vous cherchez une personne, un service ou un bureau ?
         </p>
 
-        <Form
-          setLook={setLook}
-          setShowModal={setShowModal}
-          request="https://monpsy.ulb.be/ajax/autocomplete/fusion.php"
-          title=""
-          queryKey="fusion"
-        />
+        {loadData && data && (
+          <Form
+            setLook={setLook}
+            setShowModal={setShowModal}
+            request="https://monpsy.ulb.be/ajax/autocomplete/fusion.php"
+            title=""
+            queryKey="fusion"
+            data={data}
+          />
+        )}
       </Modal>
     </>
   );
