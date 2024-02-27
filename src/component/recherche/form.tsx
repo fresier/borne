@@ -35,11 +35,9 @@ export default function Form({
   const updateTimer = useAppStore.use.updateTimer();
 
   const [valueForm, setValueForm] = useState(formulaire.look);
-  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit: SubmitHandler<formulaire> = async (formData) => {
     formData.look = valueForm;
-    setIsLoading(true);
 
     setLook({
       type: queryKey,
@@ -48,7 +46,6 @@ export default function Form({
 
     updateTimer(duration);
     setShowModal(false);
-    setIsLoading(false);
   };
 
   //hook du formulaire
