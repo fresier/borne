@@ -39,7 +39,7 @@ export default function Home() {
       {showResult && <ResultBox look={look} setLook={setLook} />}
       <LookBox setLook={setLook} />
       <Ascenseur />
-      {process.env.ULB_ENV !== "prod" && <DevTools />}
+      {process.env.NEXT_PUBLIC_ULB_ENV !== "prod" && <DevTools />}
     </>
   );
 }
