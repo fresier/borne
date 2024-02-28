@@ -1,5 +1,6 @@
 "use client";
 
+import { setJWT } from "@/utils/jwtULB";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "react-bootstrap";
 import { FicheMembre } from "./membre";
@@ -13,7 +14,12 @@ export default function FicheService({ id, setLook }: FicheServiceProps) {
   const { isLoading, data } = useQuery({
     queryKey: ["service_" + id],
     queryFn: () =>
-      fetch("https://monpsy.ulb.be/ajax/serviceFiche.php?id=" + id)
+      fetch(
+        "https://monpsy.ulb.be/ajax/serviceFiche.php?id=" +
+          id +
+          "&token=" +
+          setJWT()
+      )
         .then((res) => res.json())
         .then((data) => {
           return data;

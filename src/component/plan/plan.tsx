@@ -1,5 +1,6 @@
 "use client";
 
+import { setJWT } from "@/utils/jwtULB";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
@@ -15,7 +16,12 @@ export const Plan = ({ id, setLook }: props) => {
   const { isLoading, data } = useQuery({
     queryKey: ["local_" + id],
     queryFn: () =>
-      fetch("https://monpsy.ulb.be/ajax/localFiche.php?local=" + id)
+      fetch(
+        "https://monpsy.ulb.be/ajax/localFiche.php?local=" +
+          id +
+          "&token=" +
+          setJWT()
+      )
         .then((res) => res.json())
         .then((data) => {
           return data;

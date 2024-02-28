@@ -1,5 +1,6 @@
 "use client";
 
+import { setJWT } from "@/utils/jwtULB";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
@@ -14,7 +15,12 @@ export const FicheMembre = ({ ulbid, commentaire, setLook }: props) => {
   const { isLoading, data } = useQuery({
     queryKey: [ulbid],
     queryFn: () =>
-      fetch("https://monpsy.ulb.be/ajax/userFiche.php?ulbid=" + ulbid)
+      fetch(
+        "https://monpsy.ulb.be/ajax/userFiche.php?ulbid=" +
+          ulbid +
+          "&token=" +
+          setJWT()
+      )
         .then((res) => res.json())
         .then((data) => {
           return data;

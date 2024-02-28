@@ -39,7 +39,7 @@ const createSignature = (
   return signature;
 };
 
-export function setJWT(ulbid: string | undefined) {
+export function setJWT(ulbid?: string) {
   // suppose we have this header
   const header = {
     alg: "HS256",
@@ -51,7 +51,7 @@ export function setJWT(ulbid: string | undefined) {
   //console.log ("the header is: ",jwtB64Header);
 
   const payload = {
-    ulbid: process.env.NEXT_PUBLIC_JWT_ULBID,
+    ulbid: ulbid,
     iat: Date.now(),
     exp: Date.now() + 3600,
   };

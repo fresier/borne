@@ -1,3 +1,4 @@
+import { setJWT } from "@/utils/jwtULB";
 import { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
@@ -8,10 +9,10 @@ export default function Pub() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("https://monpsy.ulb.be/ajax/annonce.php")
+    fetch("https://monpsy.ulb.be/ajax/annonce.php?token=" + setJWT())
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
+        if (!data.error) setData(data.annonces);
       });
   }, []);
 
