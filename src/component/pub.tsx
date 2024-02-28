@@ -23,13 +23,10 @@ export default function Pub() {
           style={{
             position: "absolute",
             zIndex: "50",
-            //'top':'calc((100vh - 20px - 20px)/2)',
             top: "0",
-
             width: "100%",
             height: "100vh",
             lineHeight: "20px",
-            //'backgroundColor':'#1F2A2E'
           }}
         >
           <div className="m-3">

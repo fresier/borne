@@ -65,9 +65,7 @@ export default function LookBox({ setLook }: LookBoxProps) {
           <Form
             setLook={setLook}
             setShowModal={setShowModal}
-            request="https://monpsy.ulb.be/ajax/autocomplete/fusion.php"
             title=""
-            queryKey="fusion"
             data={data}
           />
         )}

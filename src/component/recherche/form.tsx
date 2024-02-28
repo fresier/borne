@@ -6,13 +6,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Selectable from "./selectable";
 
 interface FormProps {
-  request: string;
   setLook: any;
   setShowModal: any;
   title: string;
-  queryKey: string;
   limiteChar?: number;
-  data?: any;
+  data: any;
 }
 
 interface formulaire {
@@ -20,11 +18,9 @@ interface formulaire {
 }
 
 export default function Form({
-  request,
   setLook,
   setShowModal,
   title,
-  queryKey,
   limiteChar = 0,
   data,
 }: FormProps) {
@@ -41,7 +37,7 @@ export default function Form({
     formData.look = valueForm;
 
     setLook({
-      type: queryKey,
+      type: "fusion",
       look: formData.look,
     });
 
@@ -59,23 +55,12 @@ export default function Form({
     reset,
   } = useForm<formulaire>();
 
-  // const { isLoading: fetchLoading, data } = useQuery({
-  //   queryKey: [queryKey],
-  //   queryFn: () =>
-  //     fetch(request)
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         return data.datas;
-  //       }),
-  // });
-
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="container mb-3">
           <div className="row">
             <p className="mx-3">{title}</p>
-            {/* {fetchLoading && <p>Chargement...</p>} */}
             {data && (
               <>
                 <Selectable
