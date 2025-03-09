@@ -37,7 +37,7 @@ const Selectable = React.forwardRef((props: Props, ref) => {
       isClearable={props.isClearable}
       isSearchable={props.isSearchable}
       closeMenuOnSelect={!props.isMulti}
-      components={animatedComponents}
+      //components={animatedComponents}
       options={showOptions ? props.option : []}
       onInputChange={handleInputChange}
       styles={{
