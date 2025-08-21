@@ -4,11 +4,11 @@ import BureauD from "./bureauD";
 
 interface BureauProps {
   bureau: string;
-  xtype: string;
+  type: string;
   data: any;
   nb: number;
-  libel?: string;
-  window: number;
+  libelle?: string;
+  windows: number;
 }
 
 interface Props {
@@ -43,7 +43,7 @@ export default function EtageD({ etage, bureau, id, setLook }: Props) {
   const bureauSud = etageBureau.map((bureau, index) => {
     if (parseInt(bureau.bureau.split(".")[3]) < 200) {
       i = x;
-      x += bureau.window * largeur_window + 1.5;
+      x += bureau.windows * largeur_window + 1.5;
       return (
         <BureauD
           key={uuidv4()}
@@ -65,7 +65,7 @@ export default function EtageD({ etage, bureau, id, setLook }: Props) {
       bureau.bureau.split(".")[1].includes("C")
     ) {
       i = x;
-      x += bureau.window * largeur_window + 1.5;
+      x += bureau.windows * largeur_window + 1.5;
       return (
         <BureauD
           key={uuidv4()}
@@ -87,7 +87,7 @@ export default function EtageD({ etage, bureau, id, setLook }: Props) {
       bureau.bureau.split(".")[1].includes("B")
     ) {
       i = x;
-      x += bureau.window * largeur_window + 1.5;
+      x += bureau.windows * largeur_window + 1.5;
       return (
         <BureauD
           key={uuidv4()}
@@ -155,12 +155,14 @@ export default function EtageD({ etage, bureau, id, setLook }: Props) {
         />
 
         <rect
-          x="690"
-          y="290"
-          width="70"
-          height="155"
+          id="assenceur"
+          x="700"
+          y="300"
+          width="55"
+          height="140"
           fill="green"
           onClick={() => showAssenceur()}
+          style={{ cursor: "pointer" }}
         ></rect>
 
         <path d="M668.8,139.8l2.1,155.7h-2.1V139.8z M670.8,139.8h-2.1l2.1,155.7V139.8z" />

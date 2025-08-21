@@ -2,11 +2,12 @@
 const nextConfig = {
   output: "standalone",
   reactStrictMode: false,
+
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "monpsy.ulb.be",
+        hostname: "mafac.ulb.be",
         port: "",
         pathname: "/**",
       },

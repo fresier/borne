@@ -16,14 +16,15 @@ export const FicheMembre = ({ ulbid, commentaire, setLook }: props) => {
     queryKey: [ulbid],
     queryFn: () =>
       fetch(
-        "https://monpsy.ulb.be/ajax/userFiche.php?ulbid=" +
+        "http://localhost:3000/api/borne/membre?fac=e&ulbid=" +
           ulbid +
           "&token=" +
           setJWT()
       )
         .then((res) => res.json())
         .then((data) => {
-          return data;
+          console.log("FicheMembre", data);
+          return data.members[0];
         }),
   });
 
@@ -34,35 +35,49 @@ export const FicheMembre = ({ ulbid, commentaire, setLook }: props) => {
   return (
     <>
       {isLoading && <Spinner animation="border" variant="primary" />}
-      {!isLoading && data.nom && (
+      {!isLoading && data.ulbid && (
         <table key={uuidv4()}>
           <tbody>
             <tr>
               <td style={{ width: "35px" }}>
-                <Avatar size="--3" src={"https:" + data.photo} />
+                <Avatar size="--4" email={data.email} />
               </td>
-              <td key={uuidv4()}>
-                {commentaire && <h5 className="ms-1">{commentaire}</h5>}
-                <span className="ms-1">
-                  {data.prenom} {data.nom?.toUpperCase()}
-                </span>
-                <br />
-                <span className="ms-1 text-primary link-underline">
-                  {" "}
-                  <u>{data.email}</u>
-                </span>
-                <br />
-                <span className="ms-1 badge rounded-pill text-bg-light">
-                  {data.tel}
-                </span>
-                <a
-                  className="ms-1 badge rounded-pill text-bg-light text-decoration-none"
-                  onClick={() => {
-                    handleLocal(data.bureau);
-                  }}
-                >
-                  {data.bureau}
-                </a>
+              <td key={uuidv4()} className="ps-3">
+                <h5 className="mb-0">
+                  {data.firstName} {data.lastName?.toUpperCase()}
+                </h5>{" "}
+                {data.roles?.map((r: any, index: number) => {
+                  return (
+                    <div key={uuidv4()}>
+                      {index >= 1 && <hr />}
+                      <b>{r.service}</b>
+                      <br />
+                      {r.titre && (
+                        <h6 key={"titre-" + index} className="mb-0">
+                          {r.titre}
+                        </h6>
+                      )}
+                      <span key={"email-" + index}>
+                        {r.email ? r.email : data.email}
+                      </span>
+                      <br />
+                      <span key={"phone-" + index}>
+                        {r.phone ? r.phone : data.phone}
+                      </span>{" "}
+                      <br />
+                      {r.office && (
+                        <span
+                          className=" mb-1 badge text-bg-warning rounded-pill "
+                          onClick={() => {
+                            handleLocal(r.office);
+                          }}
+                        >
+                          {r.office}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
               </td>
             </tr>
           </tbody>

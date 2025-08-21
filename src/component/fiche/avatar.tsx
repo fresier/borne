@@ -2,8 +2,8 @@ import clsx from "clsx";
 import Image from "next/image";
 
 interface props {
-  ulbid?: string;
-  src?: string;
+  email?: string;
+
   alt?: string;
   size?: "--2" | "--3" | "--4";
   border?: number;
@@ -13,17 +13,16 @@ interface props {
 
 export const Avatar = ({
   size,
-  ulbid,
-  src,
+  email,
+
   alt = "avatar",
   border = 0,
   bordercolor = "primary",
   className,
 }: props) => {
-  src = src ? src : `https://monpsy.ulb.be/img/ano.png.webp`;
-  src = ulbid ? `https://monpsy.ulb.be/ajax/avatar.php?ulbid=${ulbid}` : src;
   let classSize = size ? "navatar" + size : "navatar";
-
+  let src = "https://mafac.ulb.be/api/avatar?email=" + email?.replace(/^_/, "");
+  console.log("Avatar src:", src);
   return (
     <>
       <div

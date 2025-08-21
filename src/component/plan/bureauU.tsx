@@ -20,7 +20,7 @@ export default function BureauU({ bureau, setLook, y = 8.1, x, actif }: props) {
   if (bureau.bureau.split(".")[3] >= 233) height = 155;
 
   let fill = fillBureau(bureau, actif);
-  let l = bureau.window * largeur_window;
+  let l = bureau.windows * largeur_window;
 
   bureau.x !== null ? (x = (bureau.x - 1) * largeur_window + 5) : null;
   bureau.y !== null ? (y = bureau.y) : null;

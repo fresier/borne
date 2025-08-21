@@ -4,7 +4,7 @@ import { setJWT } from "@/utils/jwtULB";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
-import { FicheMembre } from "../fiche/membre";
+import { Avatar } from "../fiche/avatar";
 import EtageD from "./etageD";
 import EtageU from "./etageU";
 
@@ -13,17 +13,19 @@ interface props {
   setLook?: any;
 }
 export const Plan = ({ id, setLook }: props) => {
+  //console.log("Plan", setJWT(), id);
   const { isLoading, data } = useQuery({
     queryKey: ["local_" + id],
     queryFn: () =>
       fetch(
-        "https://monpsy.ulb.be/ajax/localFiche.php?local=" +
+        "http://localhost:3000/api/borne/occupant?local=" +
           id +
           "&token=" +
           setJWT()
       )
         .then((res) => res.json())
         .then((data) => {
+          console.log("Bureau", data);
           return data;
         }),
   });
@@ -31,17 +33,17 @@ export const Plan = ({ id, setLook }: props) => {
   const { isLoading: LoadingBureau, data: bureau } = useQuery({
     queryKey: ["listeBureau"],
     queryFn: () =>
-      fetch("https://monpsy.ulb.be/ajax/autocomplete/bureau.php")
+      fetch("http://localhost:3000/api/borne/bureau")
         .then((res) => res.json())
         .then((data) => {
-          return data.datas;
+          return data;
         }),
   });
 
   if (!id) return null;
   const etage = parseInt(id.split(".")[2]);
   if (isNaN(etage)) return null;
-
+  console.log("Plan", data);
   return (
     <>
       <div className="m-3">
@@ -49,15 +51,45 @@ export const Plan = ({ id, setLook }: props) => {
         <div className="row mb-3">
           {isLoading && <Spinner animation="border" variant="primary" />}
           {!isLoading &&
-            data.users.length > 0 &&
-            data.users.map((user: any) => {
+            data.members.length > 0 &&
+            data.members.map((u: any) => {
               return (
                 <div className="col-6" key={uuidv4()}>
-                  <FicheMembre
-                    ulbid={user.name.toLowerCase()}
-                    setLook={setLook}
-                    key={uuidv4()}
-                  />
+                  <table key={uuidv4()}>
+                    <tbody>
+                      <tr>
+                        <td style={{ width: "35px" }}>
+                          <Avatar size="--4" email={u.email} />
+                        </td>
+                        <td key={uuidv4()} className="ps-3">
+                          <h5 className="mb-0">
+                            {u.firstName} {u.lastName?.toUpperCase()}
+                          </h5>{" "}
+                          {u.roles?.map((r: any, index: number) => {
+                            return (
+                              <div key={uuidv4()}>
+                                {index >= 1 && <hr />}
+                                <b>{r.service}</b>
+                                <br />
+                                {r.titre && (
+                                  <h6 key={"titre-" + index} className="mb-0">
+                                    {r.titre}
+                                  </h6>
+                                )}
+                                <span key={"email-" + index}>
+                                  {r.email ? r.email : u.email}
+                                </span>
+                                <br />
+                                <span key={"phone-" + index}>
+                                  {r.phone ? r.phone : u.phone}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               );
             })}
