@@ -14,14 +14,19 @@ interface props {
 export const Avatar = ({
   size,
   email,
-
   alt = "avatar",
   border = 0,
   bordercolor = "primary",
   className,
 }: props) => {
+  console.log("Avatar email:", email);
   let classSize = size ? "navatar" + size : "navatar";
-  let src = "https://mafac.ulb.be/api/avatar?email=" + email?.replace(/^_/, "");
+  let src =
+    process.env.NEXT_PUBLIC_MAFAC_URL +
+    "/api/avatar?token=" +
+    encodeURIComponent(process.env.NEXT_PUBLIC_JWT_SECRET as string) +
+    "&email=" +
+    email?.replace(/^_/, "");
   console.log("Avatar src:", src);
   return (
     <>

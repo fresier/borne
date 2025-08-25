@@ -12,30 +12,38 @@ interface props {
   setLook?: any;
 }
 export const FicheMembre = ({ ulbid, commentaire, setLook }: props) => {
-  const { isLoading, data } = useQuery({
-    queryKey: [ulbid],
-    queryFn: () =>
-      fetch(
-        "http://localhost:3000/api/borne/membre?fac=e&ulbid=" +
+  const { isLoading, data } = useQuery<any | null>({
+    queryKey: ["ulbid", ulbid],
+    enabled: !!ulbid,
+    queryFn: async () => {
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_MAFAC_URL +
+          "/api/borne/membre?fac=e&ulbid=" +
           ulbid +
           "&token=" +
           setJWT()
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("FicheMembre", data);
-          return data.members[0];
-        }),
+      );
+
+      if (!res.ok) {
+        throw new Error(`Failed to fetch membre: ${res.status}`);
+      }
+
+      const data = await res.json();
+      console.log("FicheMembre", data);
+      // Ensure we never return undefined (React Query v5 disallows it)
+      const member = data?.members?.[0] ?? null;
+      return member;
+    },
   });
 
   function handleLocal(local: string) {
-    setLook({ look: local, type: "local" });
+    setLook?.({ look: local, type: "local" });
   }
 
   return (
     <>
       {isLoading && <Spinner animation="border" variant="primary" />}
-      {!isLoading && data.ulbid && (
+      {!isLoading && data && (
         <table key={uuidv4()}>
           <tbody>
             <tr>
