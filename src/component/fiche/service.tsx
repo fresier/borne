@@ -28,6 +28,8 @@ export default function FicheService({ id, setLook }: FicheServiceProps) {
     return;
   }
 
+  console.log("FicheService", data);
+
   return (
     <>
       <div className="m-3">

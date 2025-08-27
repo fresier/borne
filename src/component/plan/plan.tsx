@@ -1,6 +1,7 @@
 "use client";
 
-import { setJWT } from "@/utils/jwtULB";
+import getBureaux from "@/webservice/BORNE/getBureaux";
+import getOccupant from "@/webservice/BORNE/getOccupant";
 import { useQuery } from "@tanstack/react-query";
 import { Card, Spinner } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
@@ -15,30 +16,14 @@ interface props {
 export const Plan = ({ id, setLook }: props) => {
   //console.log("Plan", setJWT(), id);
   const { isLoading, data } = useQuery({
+    enabled: !!id,
     queryKey: ["local_" + id],
-    queryFn: () =>
-      fetch(
-        process.env.NEXT_PUBLIC_MAFAC_URL +
-          "/api/borne/occupant?local=" +
-          id +
-          "&token=" +
-          setJWT()
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("Bureau", data);
-          return data;
-        }),
+    queryFn: async () => (await getOccupant({ id: id! })).json,
   });
 
   const { isLoading: LoadingBureau, data: bureau } = useQuery({
     queryKey: ["listeBureau"],
-    queryFn: () =>
-      fetch(process.env.NEXT_PUBLIC_MAFAC_URL + "/api/borne/bureau")
-        .then((res) => res.json())
-        .then((data) => {
-          return data;
-        }),
+    queryFn: async () => (await getBureaux()).json,
   });
 
   if (!id) return null;

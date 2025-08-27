@@ -1,6 +1,6 @@
 "use client";
 
-import { setJWT } from "@/utils/jwtULB";
+import getMember from "@/webservice/BORNE/getMember";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
@@ -15,25 +15,7 @@ export const FicheMembre = ({ ulbid, commentaire, setLook }: props) => {
   const { isLoading, data } = useQuery<any | null>({
     queryKey: ["ulbid", ulbid],
     enabled: !!ulbid,
-    queryFn: async () => {
-      const res = await fetch(
-        process.env.NEXT_PUBLIC_MAFAC_URL +
-          "/api/borne/membre?fac=e&ulbid=" +
-          ulbid +
-          "&token=" +
-          setJWT()
-      );
-
-      if (!res.ok) {
-        throw new Error(`Failed to fetch membre: ${res.status}`);
-      }
-
-      const data = await res.json();
-      console.log("FicheMembre", data);
-      // Ensure we never return undefined (React Query v5 disallows it)
-      const member = data?.members?.[0] ?? null;
-      return member;
-    },
+    queryFn: async () => (await getMember({ ulbid })).json,
   });
 
   function handleLocal(local: string) {
