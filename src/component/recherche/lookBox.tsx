@@ -1,7 +1,8 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Modal } from "react-bootstrap";
 import Form from "./form";
 import loadAutocomplete from "./loadAutocomplete";
@@ -12,16 +13,11 @@ interface LookBoxProps {
 
 export default function LookBox({ setLook }: LookBoxProps) {
   const [showModal, setShowModal] = useState(false);
-  const [data, setData] = useState();
-  const [loadData, setLoadData] = useState(false);
 
-  useEffect(() => {
-    loadAutocomplete().then((result) => {
-      if (!result.success) return;
-      setData(result.json.datas);
-      setLoadData(true);
-    });
-  }, []);
+  const { isLoading, data } = useQuery({
+    queryKey: ["autocomplete"],
+    queryFn: async () => (await loadAutocomplete())?.json,
+  });
 
   return (
     <>
@@ -61,7 +57,7 @@ export default function LookBox({ setLook }: LookBoxProps) {
           Vous cherchez une personne, un service ou un bureau ?
         </p>
 
-        {loadData && data && (
+        {!isLoading && data && (
           <Form
             setLook={setLook}
             setShowModal={setShowModal}

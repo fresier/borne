@@ -10,8 +10,6 @@ export const loadServicesComplet = async ({
     "/services_complets/?order[mandatService.mandat.corps.corpsOrder]=asc&order[mandatService.mandat.agent.user.nom]=asc&orgCode=" +
     orgCode;
 
-  console.log("loadServicesComplet request", request);
-
   try {
     const headers = new Headers();
     headers.append(
@@ -44,7 +42,6 @@ export const loadServicesComplet = async ({
       email: chefDeService?.mandat?.agent?.user?.email,
     };
 
-    console.log("loadServicesComplet", { jsonCleaned, chef });
     return { success: true, json: jsonCleaned[0], chef: chef };
   } catch (e) {
     console.log("loadServicesComplet error", e);
