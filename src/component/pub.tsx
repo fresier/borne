@@ -30,7 +30,7 @@ export default function Pub() {
             lineHeight: "20px",
           }}
         >
-          <div className="m-3">
+          <div className="m-3 mt-5">
             <Carousel>
               {data.map((item) => (
                 <Carousel.Item interval={timer} key={uuidv4()}>

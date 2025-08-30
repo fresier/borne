@@ -24,10 +24,11 @@ export default function LookBox({ setLook }: LookBoxProps) {
       <div
         className=""
         style={{
-          position: "absolute",
+          position: "fixed",
           zIndex: "100",
-          top: "0",
-          right: "0",
+          top: "-40px",
+          // Push completely off-screen to the right without creating horizontal scrollbar
+          right: "-10px",
           width: "216px",
           height: "160px",
           lineHeight: "20px",
@@ -38,8 +39,8 @@ export default function LookBox({ setLook }: LookBoxProps) {
           <Image
             alt="help ?"
             width="216"
-            height="160"
-            src="/assets/img/logo-besoin-daide.png"
+            height="216"
+            src="/assets/img/BoutonEcranFac.png"
           />
         </a>
       </div>
