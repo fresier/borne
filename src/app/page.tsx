@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import DevTools from "@/component/devTools";
 import Ascenseur from "@/component/plan/ascenseur";
@@ -20,6 +20,8 @@ export default function Home() {
   const updateTimer = useAppStore.use.updateTimer();
   const duration = useAppStore.use.duration();
 
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const e = urlParams.get("e");
@@ -35,9 +37,13 @@ export default function Home() {
 
   return (
     <>
-      {showPub && <Pub />}
+      {showPub && <Pub setShowModal={setShowModal} />}
       {showResult && <ResultBox look={look} setLook={setLook} />}
-      <LookBox setLook={setLook} />
+      <LookBox
+        setLook={setLook}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
       <Ascenseur />
       {process.env.NEXT_PUBLIC_ULB_ENV !== "prod" && <DevTools />}
     </>

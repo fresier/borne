@@ -2,18 +2,21 @@
 
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useState } from "react";
 import { Modal } from "react-bootstrap";
 import Form from "./form";
 import loadAutocomplete from "./loadAutocomplete";
 
 interface LookBoxProps {
   setLook: any;
+  showModal: boolean;
+  setShowModal: any;
 }
 
-export default function LookBox({ setLook }: LookBoxProps) {
-  const [showModal, setShowModal] = useState(false);
-
+export default function LookBox({
+  setLook,
+  showModal,
+  setShowModal,
+}: LookBoxProps) {
   const { isLoading, data } = useQuery({
     queryKey: ["autocomplete"],
     queryFn: async () => (await loadAutocomplete())?.json,

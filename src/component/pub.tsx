@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 
-export default function Pub() {
+interface PubProps {
+  setShowModal: any;
+}
+
+export default function Pub({ setShowModal }: PubProps) {
   const timer = 5000;
 
   const [data, setData] = useState([]);
@@ -39,6 +43,7 @@ export default function Pub() {
                     alt="help ?"
                     width="100%"
                     src={item}
+                    onClick={() => setShowModal(true)}
                   />
                 </Carousel.Item>
               ))}
