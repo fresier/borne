@@ -1,5 +1,5 @@
-import { setJWT } from "@/utils/jwtULB";
-import { useEffect, useState } from "react";
+import getPub from "@/webservice/BORNE/getPub";
+import { useQuery } from "@tanstack/react-query";
 import { Carousel } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 
@@ -10,15 +10,15 @@ interface PubProps {
 export default function Pub({ setShowModal }: PubProps) {
   const timer = 5000;
 
-  const [data, setData] = useState([]);
+  const { isLoading, data } = useQuery({
+    queryKey: ["pub"],
+    queryFn: async () => await getPub(),
+    staleTime: 1000 * 60 * 60, // 1 hour
+    refetchOnWindowFocus: false,
+  });
 
-  useEffect(() => {
-    fetch("https://monpsy.ulb.be/ajax/annonce.php?token=" + setJWT())
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.error) setData(data.annonces);
-      });
-  }, []);
+  if (isLoading) return <></>;
+  if (!data || data.length === 0) return <></>;
 
   return (
     <>
@@ -36,13 +36,13 @@ export default function Pub({ setShowModal }: PubProps) {
         >
           <div className="m-3 mt-5">
             <Carousel>
-              {data.map((item) => (
+              {data?.items?.map((item: any) => (
                 <Carousel.Item interval={timer} key={uuidv4()}>
                   <img
                     className="img-thumbnail carousel-img"
                     alt="help ?"
                     width="100%"
-                    src={item}
+                    src={item.url}
                     onClick={() => setShowModal(true)}
                   />
                 </Carousel.Item>
