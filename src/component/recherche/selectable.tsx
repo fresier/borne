@@ -4,6 +4,19 @@ import makeAnimated from "react-select/animated";
 
 const animatedComponents = makeAnimated();
 
+// Fonction de filtrage personnalisée qui ignore les points
+const customFilterOption = (option: any, inputValue: string) => {
+  if (!inputValue) return true;
+
+  // Nettoie l'input et la valeur de l'option en supprimant les points
+  const cleanInput = inputValue.toLowerCase().replace(/\./g, "");
+  const cleanLabel = option.label.toLowerCase().replace(/\./g, "");
+  const cleanValue = option.value.toLowerCase().replace(/\./g, "");
+
+  // Recherche dans le label et la valeur
+  return cleanLabel.includes(cleanInput) || cleanValue.includes(cleanInput);
+};
+
 interface Props {
   option: any;
   id: string;
@@ -37,6 +50,7 @@ const Selectable = React.forwardRef((props: Props, ref) => {
       isClearable={props.isClearable}
       isSearchable={props.isSearchable}
       closeMenuOnSelect={!props.isMulti}
+      filterOption={customFilterOption}
       //components={animatedComponents}
       options={showOptions ? props.option : []}
       onInputChange={handleInputChange}

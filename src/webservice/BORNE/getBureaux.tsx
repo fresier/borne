@@ -10,6 +10,8 @@ export default async function getBureaux() {
     }
     const data = await res.json();
 
+    //console.log("Bureaux fetched:", data);
+
     return { success: true, json: data };
   } catch (e) {
     return {

@@ -33,7 +33,10 @@ export const Plan = ({ id, setLook }: props) => {
   return (
     <>
       <div className="m-3">
-        <h1>{!isNaN(etage) && id}</h1>
+        <h1>
+          {!isNaN(etage) && id} {data?.bureau && <span>- {data.bureau}</span>}
+        </h1>
+
         <div className="row mb-3">
           {isLoading && <Spinner animation="border" variant="primary" />}
           {!isLoading &&

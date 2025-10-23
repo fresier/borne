@@ -20,7 +20,7 @@ export default async function getOccupant({ id }: Props) {
       throw new Error(`Failed to fetch membre: ${res.status}`);
     }
     const data = await res.json();
-
+    console.log("Occupant fetched for local", id, ":", data);
     return { success: true, json: data };
   } catch (e) {
     return {
